@@ -48,9 +48,9 @@ instagram_parser_rapid_api:
   ##############
   mock: false
   # Путь к фикстуре запроса картинок.
-  fixture_response_path: '/local/classes/Bundles/InstagramParserRapidApiBundle/Fixture/response.txt'
+  fixture_response_path: '/local/config/Fixture/response.txt'
   # Путь к фикстуре запроса данных пользователя.
-  fixture_user_path: '/local/classes/Bundles/InstagramParserRapidApiBundle/Fixture/user.txt'
+  fixture_user_path: '/local/config/Fixture/user.txt'
 
   ###########################
   # Информация о пользователе

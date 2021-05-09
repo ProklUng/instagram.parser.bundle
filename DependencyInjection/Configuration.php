@@ -40,10 +40,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('instagram_user_name')->defaultValue('')->end()
                 ->scalarNode('rapid_api_key')->end()
                 ->scalarNode('fixture_response_path')->defaultValue(
-                    '/local/classes/Bundles/InstagramParserRapidApiBundle/Fixture/response.txt'
+                    '/local/config/Fixture/response.txt'
                 )->end()
                 ->scalarNode('fixture_user_path')->defaultValue(
-                    '/local/classes/Bundles/InstagramParserRapidApiBundle/Fixture/user.txt'
+                    '/local/config/Fixture/user.txt'
                 )->end()
                 ->scalarNode('cache_path')->defaultValue('cache/instagram-parser')->end()
                 ->scalarNode('cache_ttl')->defaultValue(86400)->end()

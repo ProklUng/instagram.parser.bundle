@@ -47,6 +47,12 @@ class InstagramParserRapidApiExtension extends Extension
         );
 
         $loader->load('services.yaml');
+
+        if (defined('B_PROLOG_INCLUDED') && B_PROLOG_INCLUDED === true) {
+            $loader->load('bitrix.yaml');
+        } else {
+            $loader->load('psr-cache.yaml');
+        }
     }
 
     /**

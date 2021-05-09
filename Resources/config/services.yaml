@@ -12,20 +12,6 @@ services:
     class: Prokl\InstagramParserRapidApiBundle\Services\Transport\CurlTransportRapidApi
     arguments: ['%instagram_parser_rapid_api.rapid_api_key%']
 
-  ############
-  # PSR кэшер
-  ############
-  instagram_parser_rapid_api.cacher:
-    public: false
-    class: WebArch\BitrixCache\AntiStampedeCacheAdapter
-    arguments: ['/', '%instagram_parser_rapid_api.cache_ttl%', '%instagram_parser_rapid_api.cache_path%']
-
-  # Данные пользователя. Кэшируется на год!
-  instagram_parser_rapid_api.cacher_user:
-    public: false
-    class: WebArch\BitrixCache\AntiStampedeCacheAdapter
-    arguments: ['/', '%instagram_parser_rapid_api.cache_user_data_ttl%', '%instagram_parser_rapid_api.cache_path%']
-
   # Транспорт, обращающийся к rapidAPI.
   instagram_parser_rapid_api.rapid_api:
     public: false

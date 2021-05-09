@@ -1,0 +1,18 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  ############
+  # PSR кэшер
+  ############
+  instagram_parser_rapid_api.cacher:
+    parent: 'cache.adapter.filesystem'
+    tags:
+      - { name: 'cache.pool', namespace: 'instagram-parser', default_lifetime: '%instagram_parser_rapid_api.cache_ttl%' }
+
+  instagram_parser_rapid_api.cacher_user:
+    parent: 'cache.adapter.filesystem'
+    tags:
+      - { name: 'cache.pool', namespace: 'instagram-parser', default_lifetime: '%instagram_parser_rapid_api.cache_user_data_ttl%' }
