@@ -18,7 +18,7 @@ composer.json:
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/proklung/instagram-parser-bundle"
+            "url": "https://github.com/proklung/instagram.parser.bundle"
         }
     ]
 ```
