@@ -12,6 +12,17 @@
 
 ## Установка
 
+composer.json:
+
+```json
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/proklung/instagram-parser-bundle"
+        }
+    ]
+```
+
 ```bash
 
 composer require proklung/instagram-parser-bundle
