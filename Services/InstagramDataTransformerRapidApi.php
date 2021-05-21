@@ -15,7 +15,7 @@ use RuntimeException;
 class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterface
 {
     /**
-     * @var CurlDownloader $curlDownloader
+     * @var CurlDownloader $curlDownloader Curl.
      */
     private $curlDownloader;
 
@@ -25,22 +25,30 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
     private $arMedias = [];
 
     /**
-     * @var string $dirSave
+     * @var string $dirSave Куда сохранять картинки.
      */
     private $dirSave;
 
     /**
+     * @var string $documentRoot DOCUMENT_ROOT.
+     */
+    private $documentRoot;
+
+    /**
      * InstagramDataTransformerRapidApi constructor.
      *
-     * @param CurlDownloader $curlDownloader
-     * @param string         $dirSave
+     * @param CurlDownloader $curlDownloader Curl.
+     * @param string         $dirSave        Куда сохранять картинки.
+     * @param string         $root           DOCUMENT_ROOT.
      */
     public function __construct(
         CurlDownloader $curlDownloader,
-        string $dirSave
+        string $dirSave,
+        string $root
     ) {
         $this->curlDownloader = $curlDownloader;
         $this->dirSave = $dirSave;
+        $this->documentRoot = $root;
     }
 
     /**
@@ -73,6 +81,11 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
             $resultPathImage = '';
             if ($item['display_url']) {
                 $destinationName = '/' . md5($item['display_url']) . '.jpg';
+
+                if (!is_dir($this->documentRoot . $this->dirSave)) {
+                    @mkdir($this->documentRoot . $this->dirSave);
+                }
+
                 $resultPathImage = $this->curlDownloader->download($item['display_url'], $this->dirSave . $destinationName);
             }
 

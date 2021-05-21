@@ -43,6 +43,7 @@ services:
     arguments:
       - '@instagram_parser_rapid_api.curl_downloader'
       - '%instagram_parser_rapid_api.save_path%'
+      - '%kernel.project_dir%'
     class: Prokl\InstagramParserRapidApiBundle\Services\InstagramDataTransformerRapidApi
 
   Prokl\InstagramParserRapidApiBundle\Services\InstagramDataTransformerRapidApi: '@instagram_parser_rapid_api.data_transformer'
