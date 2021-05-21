@@ -52,6 +52,9 @@ instagram_parser_rapid_api:
   # Путь к фикстуре запроса данных пользователя.
   fixture_user_path: '/local/config/Fixture/user.txt'
 
+  # Куда локально сохранять картинки из Инстаграма.
+  path_image: '/upload/instagram'
+
   ###########################
   # Информация о пользователе
   ###########################

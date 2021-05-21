@@ -39,6 +39,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('instagram_user_id')->end()
                 ->scalarNode('instagram_user_name')->defaultValue('')->end()
                 ->scalarNode('rapid_api_key')->end()
+                ->scalarNode('path_image')->defaultValue('/upload/instagram')->end()
                 ->scalarNode('fixture_response_path')->defaultValue(
                     '/local/config/Fixture/response.txt'
                 )->end()
