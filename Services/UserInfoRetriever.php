@@ -48,17 +48,25 @@ class UserInfoRetriever
     private $fixture = '';
 
     /**
+     * @var string $documentRoot DOCUMENT_ROOT.
+     */
+    private $documentRoot;
+
+    /**
      * UserInfoRetriever constructor.
      *
      * @param CacheInterface              $cacher             Кэшер.
      * @param InstagramTransportInterface $instagramTransport Транспорт.
+     * @param string                      $documentRoot       DOCUMENT_ROOT.
      */
     public function __construct(
         CacheInterface $cacher,
-        InstagramTransportInterface $instagramTransport
+        InstagramTransportInterface $instagramTransport,
+        string $documentRoot
     ) {
         $this->cacher = $cacher;
         $this->instagramTransport = $instagramTransport;
+        $this->documentRoot = $documentRoot;
     }
 
     /**
@@ -89,7 +97,7 @@ class UserInfoRetriever
             );
         }
 
-        return $data['id'];
+        return (string)$data['id'];
     }
 
     /**
@@ -114,9 +122,7 @@ class UserInfoRetriever
     {
         $this->useMock = $useMock;
         if ($useMock && $fixturePath !== '') {
-            $this->fixture = (string)file_get_contents(
-                $_SERVER['DOCUMENT_ROOT'] . $fixturePath
-            );
+            $this->fixture = (string)file_get_contents($this->documentRoot . $fixturePath);
         }
 
         return $this;
@@ -131,12 +137,13 @@ class UserInfoRetriever
     private function query(): array
     {
         if ($this->useMock && trim($this->fixture)) {
-            $result =  json_decode($this->fixture, true);
+            $result =  (array)json_decode($this->fixture, true);
             return $result ? $this->clearResult($result) : $result;
         }
 
         $keyCache = self::CACHE_KEY. $this->userName;
 
+        /** @var array $result */
         $result = $this->cacher->get(
             $keyCache,
             /**
@@ -151,6 +158,7 @@ class UserInfoRetriever
                     return null;
                 }
 
+                /** @var array $result */
                 $result =  json_decode($response, true);
 
                 return $result ? $this->clearResult($result) : $result;
@@ -163,7 +171,7 @@ class UserInfoRetriever
         ) {
             $this->cacher->delete($keyCache);
             throw new InstagramTransportException(
-                $result['message'],
+                (string)$result['message'],
                 400
             );
         }

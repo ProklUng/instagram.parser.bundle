@@ -64,7 +64,7 @@ class CurlDownloader
 
         curl_close($curl);
 
-        if ($err) {
+        if ($err || $response === false) {
             throw new RuntimeException('Get Request Error: ' . $err);
         }
 
@@ -74,7 +74,7 @@ class CurlDownloader
             throw new RuntimeException('File error: ' . $this->documentRoot . $dest);
         }
 
-        $success = fwrite($fp, $response);
+        $success = fwrite($fp, (string)$response);
         if ($success === false) {
             throw new RuntimeException('File write error: ' . $this->documentRoot . $dest);
         }

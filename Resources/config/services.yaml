@@ -20,6 +20,7 @@ services:
       - '@instagram_parser_rapid_api.cacher'
       - '@instagram_parser_rapid_api.transport'
       - '%instagram_parser_rapid_api.instagram_user_id%'
+      - '%kernel.project_dir%'
     calls:
       - setUseMock: ['%instagram_parser_rapid_api.mock%', '%instagram_parser_rapid_api.fixture_response_path%']
 
@@ -31,6 +32,7 @@ services:
     arguments:
       - '@instagram_parser_rapid_api.cacher_user'
       - '@instagram_parser_rapid_api.transport'
+      - '%kernel.project_dir%'
     calls:
       - setUserName: ['%instagram_parser_rapid_api.instagram_user_name%']
       - setUseMock: ['%instagram_parser_rapid_api.mock%', '%instagram_parser_rapid_api.fixture_user_path%']

@@ -96,11 +96,11 @@ class MakeFixtures extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      *
-     * @return void
+     * @return integer
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) : void
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $this->output = $output;
 
@@ -111,14 +111,16 @@ class MakeFixtures extends Command
 
         $userId = $this->makeUserFixture($username);
         if (!$userId) {
-            return;
+            return 1;
         }
 
         if (!$this->makeResponseFixture($userId)) {
-            return;
+            return 0;
         }
 
         $output->writeln('Фикстуры созданы успешно.');
+
+        return 0;
     }
 
     /**

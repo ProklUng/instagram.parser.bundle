@@ -62,31 +62,39 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
     private $fixture = '';
 
     /**
+     * @var string $documentRoot DOCUMENT_ROOT.
+     */
+    private $documentRoot;
+
+    /**
      * RetrieverInstagramDataRapidApi constructor.
      *
      * @param CacheInterface              $cacher             Кэшер.
      * @param InstagramTransportInterface $instagramTransport Транспорт.
      * @param string                      $userId             Instagram ID user.
+     * @param string                      $documentRoot       DOCUMENT_ROOT.
      */
     public function __construct(
         CacheInterface $cacher,
         InstagramTransportInterface $instagramTransport,
-        string $userId
+        string $userId,
+        string $documentRoot
     ) {
         $this->cacher = $cacher;
         $this->instagramTransport = $instagramTransport;
         $this->userId = $userId;
+        $this->documentRoot = $documentRoot;
     }
 
     /**
      * @inheritDoc
      * @throws InstagramTransportException Ошибки транспорта.
-     * @throws InvalidArgumentException     Ошибки кэшера.
+     * @throws InvalidArgumentException    Ошибки кэшера.
      */
     public function query(): array
     {
         if ($this->useMock && trim($this->fixture)) {
-            return json_decode($this->fixture, true);
+            return (array)json_decode($this->fixture, true);
         }
 
         $keyCache = self::CACHE_KEY. $this->userId;
@@ -98,6 +106,7 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
             $keyCache .= $this->after;
         }
 
+        /** @var array $result */
         $result = $this->cacher->get(
             $keyCache,
             /**
@@ -127,7 +136,7 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
         ) {
             $this->cacher->delete($keyCache);
             throw new InstagramTransportException(
-                $result['message'],
+                (string)$result['message'],
                 400
             );
         }
@@ -181,9 +190,7 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
     {
         $this->useMock = $useMock;
         if ($useMock && $fixturePath !== '') {
-            $this->fixture = (string)file_get_contents(
-                $_SERVER['DOCUMENT_ROOT'] . $fixturePath
-            );
+            $this->fixture = (string)file_get_contents($this->documentRoot . $fixturePath);
         }
 
         return $this;

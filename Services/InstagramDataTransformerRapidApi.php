@@ -61,6 +61,7 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
          * ['has_next_page' => true, 'end_cursor' => 'XXXXX']
          */
         $countPicture = 1;
+        /** @var array $data */
         $data = $arDataFeed['edges'] ?? [];
 
         if (count($data) === 0) {
@@ -68,9 +69,9 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
         }
 
         foreach ($data as $item) {
-            $item = $item['node'];
+            $item = (array)$item['node'];
 
-            if ($countPicture > $count || !$item) {
+            if ($countPicture > $count || count($item) === 0) {
                 break;
             }
 
@@ -80,17 +81,18 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
 
             $resultPathImage = '';
             if ($item['display_url']) {
-                $destinationName = '/' . md5($item['display_url']) . '.jpg';
+                $instagramUrl = (string)$item['display_url'];
+                $destinationName = '/' . $instagramUrl . '.jpg';
 
                 if (!is_dir($this->documentRoot . $this->dirSave)) {
                     @mkdir($this->documentRoot . $this->dirSave);
                 }
 
-                $resultPathImage = $this->curlDownloader->download($item['display_url'], $this->dirSave . $destinationName);
+                $resultPathImage = $this->curlDownloader->download($instagramUrl, $this->dirSave . $destinationName);
             }
 
             $this->arMedias [] = [
-                'link' => $item['shortcode'] ? 'https://www.instagram.com/p/' . $item['shortcode'] : '',
+                'link' => $item['shortcode'] ? 'https://www.instagram.com/p/' . (string)$item['shortcode'] : '',
                 'image' => $resultPathImage,
                 'description' => $item['edge_media_to_caption']['edges'][0]['node']['text'] ?? '',
             ];
@@ -112,7 +114,7 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
 
         return $arDataFeed['page_info']['has_next_page']
             ?
-            $arDataFeed['page_info']['end_cursor'] : '';
+            (string)$arDataFeed['page_info']['end_cursor'] : '';
     }
 
 }
