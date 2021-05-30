@@ -82,7 +82,7 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
             $resultPathImage = '';
             if ($item['display_url']) {
                 $instagramUrl = (string)$item['display_url'];
-                $destinationName = '/' . $instagramUrl . '.jpg';
+                $destinationName = '/' . md5($instagramUrl) . '.jpg';
 
                 if (!is_dir($this->documentRoot . $this->dirSave)) {
                     @mkdir($this->documentRoot . $this->dirSave);
