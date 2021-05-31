@@ -18,6 +18,7 @@
         <directory name="/"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <directory name="Tests"/>
             <file name="InstagramParserRapidApiBundle.php"/>
             <file name="DependencyInjection/InstagramParserRapidApiExtension.php"/>
         </ignoreFiles>

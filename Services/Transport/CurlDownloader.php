@@ -61,14 +61,19 @@ class CurlDownloader
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
+        $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
 
-        if ($err || $response === false) {
-            throw new RuntimeException('Get Request Error: ' . $err);
+        if ($code !== 200) {
+            $err = 'error by http code ' . $code;
         }
 
-        $fp = fopen($this->documentRoot . $dest, 'w');
+        if ($err || $response === false || $code !== 200) {
+            throw new RuntimeException('Get Request Error: ' . $err . ' in context: ' . $url);
+        }
+
+        $fp = @fopen($this->documentRoot . $dest, 'w');
 
         if ($fp === false) {
             throw new RuntimeException('File error: ' . $this->documentRoot . $dest);

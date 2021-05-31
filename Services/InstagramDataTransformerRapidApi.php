@@ -82,7 +82,7 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
             $resultPathImage = '';
             if ($item['display_url']) {
                 $instagramUrl = (string)$item['display_url'];
-                $destinationName = '/' . md5($instagramUrl) . '.jpg';
+                $destinationName = $this->getDestinationFilename($instagramUrl);
 
                 if (!is_dir($this->documentRoot . $this->dirSave)) {
                     @mkdir($this->documentRoot . $this->dirSave);
@@ -117,4 +117,13 @@ class InstagramDataTransformerRapidApi implements InstagramDataTransformerInterf
             (string)$arDataFeed['page_info']['end_cursor'] : '';
     }
 
+    /**
+     * @param string $instagramUrl
+     *
+     * @return string
+     */
+    private function getDestinationFilename(string $instagramUrl) : string
+    {
+        return '/' . md5($instagramUrl) . '.jpg';
+    }
 }

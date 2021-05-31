@@ -19,6 +19,11 @@
             "Prokl\\InstagramParserRapidApiBundle\\": ""
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Prokl\\InstagramParserRapidApiBundle\\Tests\\": "Tests"
+        }
+    },
     "require": {
         "php": ">=7.3",
         "psr/container": "^1.0",
@@ -32,6 +37,7 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "proklung/phpunit-testing-tools": "^1.0"
+        "proklung/phpunit-testing-tools": "^1.0",
+        "mmo/faker-images": "^0.3.0"
     }
 }

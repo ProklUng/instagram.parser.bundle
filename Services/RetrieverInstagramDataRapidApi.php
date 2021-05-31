@@ -97,14 +97,7 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
             return (array)json_decode($this->fixture, true);
         }
 
-        $keyCache = self::CACHE_KEY. $this->userId;
-        if ($this->after) {
-            $keyCache .= md5($this->after);
-        }
-
-        if ($this->after) {
-            $keyCache .= $this->after;
-        }
+        $keyCache = $this->getCacheKey();
 
         /** @var array $result */
         $result = $this->cacher->get(
@@ -130,6 +123,15 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
             }
         );
 
+        // В ответ не пришел json.
+        if (!$result) {
+            $this->cacher->delete($keyCache);
+            throw new InstagramTransportException(
+                'Get Request Error: answer not json!',
+                400
+            );
+        }
+
         // Ошибки API. Неверный ключ и т.д.
         if (array_key_exists('message', $result)
             && $result['message'] !== ''
@@ -137,15 +139,6 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
             $this->cacher->delete($keyCache);
             throw new InstagramTransportException(
                 (string)$result['message'],
-                400
-            );
-        }
-
-        // В ответ не пришел json.
-        if (!$result) {
-            $this->cacher->delete($keyCache);
-            throw new InstagramTransportException(
-                'Get Request Error: answer not json!',
                 400
             );
         }
@@ -194,5 +187,20 @@ class RetrieverInstagramDataRapidApi implements RetrieverInstagramDataInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Ключ кэша.
+     *
+     * @return string
+     */
+    private function getCacheKey() : string
+    {
+        $keyCache = self::CACHE_KEY . $this->userId;
+        if ($this->after) {
+            $keyCache .= md5($this->after);
+        }
+
+        return $keyCache;
     }
 }

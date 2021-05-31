@@ -36,9 +36,9 @@ class ComplexParser
     private $afterParam;
 
     /**
-     * @var array $data Спарсенные сырые данные.
+     * @var array $rawParsedData Спарсенные сырые данные.
      */
-    private $data = [];
+    private $rawParsedData = [];
 
     /**
      * ComplexParser constructor.
@@ -67,13 +67,13 @@ class ComplexParser
             $this->parserInstagram->setAfterMark($this->afterParam);
         }
 
-        $this->data = $this->parserInstagram->query();
+        $this->rawParsedData = $this->parserInstagram->query();
 
         if ($this->startOffset !== 0) {
-            $this->data = array_slice($this->data, $this->startOffset, $this->count, true);
+            $this->rawParsedData = array_slice($this->rawParsedData, $this->startOffset, $this->count, true);
         }
 
-        return $this->dataTransformer->processMedias($this->data, $this->count);
+        return $this->dataTransformer->processMedias($this->rawParsedData, $this->count);
     }
 
     /**
@@ -132,11 +132,11 @@ class ComplexParser
      */
     public function getCurrentAfterParam(): string
     {
-        if (count($this->data) === 0) {
+        if (count($this->rawParsedData) === 0) {
             $this->parserInstagram->query();
         }
 
-        return $this->dataTransformer->getNextPageCursor($this->data);
+        return $this->dataTransformer->getNextPageCursor($this->rawParsedData);
     }
 
     /**
