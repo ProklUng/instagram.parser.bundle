@@ -122,7 +122,7 @@ class UserInfoRetriever
     {
         $this->useMock = $useMock;
         if ($useMock && $fixturePath !== '') {
-            $this->fixture = (string)file_get_contents($this->documentRoot . $fixturePath);
+            $this->fixture = (string)@file_get_contents($this->documentRoot . $fixturePath);
         }
 
         return $this;
