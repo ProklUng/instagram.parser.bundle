@@ -42,6 +42,7 @@ instagram_parser_rapid_api:
   cache_path: 'cache/s1/instagram-parser'
   cache_ttl: 86400
   cache_user_data_ttl: 31536000
+  cacher_service: 'app.cache.adapter.redis' # Любой кэшер, реализующий Symfony\Contracts\Cache\CacheInterface
 
   ##############
   # Мок запроса

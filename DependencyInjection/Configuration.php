@@ -46,6 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('fixture_user_path')->defaultValue(
                     '/local/config/Fixture/user.txt'
                 )->end()
+                ->scalarNode('cacher_service')->defaultValue('')->end()
                 ->scalarNode('cache_path')->defaultValue('cache/instagram-parser')->end()
                 ->scalarNode('cache_ttl')->defaultValue(86400)->end()
                 ->scalarNode('cache_user_data_ttl')->defaultValue(31536000)->end()

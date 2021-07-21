@@ -54,6 +54,12 @@ class InstagramParserRapidApiExtension extends Extension
         } else {
             $loader->load('psr-cache.yaml');
         }
+
+        $container->setParameter('instagram_parser_rapid_api.cacher', $config['cacher_service']);
+        $cacherService = $config['cacher_service'];
+        if ($cacherService) {
+            $container->setParameter('instagram_parser_rapid_api.cacher', $config['cacher_service']);
+        }
     }
 
     /**

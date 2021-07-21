@@ -3,7 +3,9 @@
 namespace Prokl\InstagramParserRapidApiBundle;
 
 use Prokl\InstagramParserRapidApiBundle\DependencyInjection\InstagramParserRapidApiExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Prokl\InstagramParserRapidApiBundle\DependencyInjection\CompilerPass\ReplaceCacherCompilerPass;
 
 /**
  * Class InstagramParserRapidApiBundle
@@ -13,9 +15,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class InstagramParserRapidApiBundle extends Bundle
 {
-   /**
-   * @inheritDoc
-   */
+    /**
+     * @inheritDoc
+     */
     public function getContainerExtension()
     {
         if ($this->extension === null) {
@@ -23,5 +25,14 @@ class InstagramParserRapidApiBundle extends Bundle
         }
 
         return $this->extension;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ReplaceCacherCompilerPass());
     }
 }
